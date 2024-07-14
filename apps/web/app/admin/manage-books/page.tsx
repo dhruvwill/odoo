@@ -353,7 +353,7 @@ const LibraryPage = () => {
               <TableCell>{book.title}</TableCell>
               <TableCell>{book.author}</TableCell>
               <TableCell>{book.genre}</TableCell>
-              <TableCell>{book.quantity}</TableCell>
+              <TableCell>{book.availableQty}</TableCell>
               <TableCell>
                 <Button
                   variant="ghost"
