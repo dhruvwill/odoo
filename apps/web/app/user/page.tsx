@@ -1,5 +1,6 @@
+"use client";
 import { Separator } from "@repo/ui/components/ui/separator";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "~/components/dashboard/SearchBar";
 import ProfileCard from "~/components/user/ProfileCard";
 import {
@@ -11,17 +12,50 @@ import {
   TableRow,
 } from "@repo/ui/components/ui/table";
 import { Input } from "@repo/ui/components/ui/input";
-import { Button } from "@repo/ui/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@repo/ui/components/ui/dropdown-menu";
 
 type Props = {};
 
-const page = (props: Props) => {
+type Book = {
+  title: string;
+  author: string;
+  genre: string;
+  year: number;
+};
+
+const Page = (props: Props) => {
+  const [books, setBooks] = useState<Book[]>([
+    {
+      title: "To Kill a Mockingbird",
+      author: "Harper Lee",
+      genre: "Fiction",
+      year: 1960,
+    },
+    { title: "1984", author: "George Orwell", genre: "Fiction", year: 1949 },
+    {
+      title: "The Great Gatsby",
+      author: "F. Scott Fitzgerald",
+      genre: "Fiction",
+      year: 1925,
+    },
+    // Add more books here
+  ]);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+
+  useEffect(() => {
+    const filtered = books.filter((book) =>
+      Object.values(book).some((value) =>
+        value.toString().toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    );
+    setFilteredBooks(filtered);
+  }, [searchTerm, books]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <main className="h-[calc(100vh-64px)] max-w-7xl mx-auto px-8">
       <div className="mx-auto flex flex-col-reverse md:flex-row gap-3 w-full justify-between py-5">
@@ -36,19 +70,13 @@ const page = (props: Props) => {
             <Separator className="my-3 h-[2px]" />
             <div className="bg-white overflow-hidden shadow rounded-lg border">
               <div className="p-6">
-                {/* <h2 className="text-lg font-semibold mb-4">My Books</h2> */}
                 <div className="flex justify-between mb-4 gap-2">
-                  <Input className="w-full" placeholder="Search books..." />
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline">Filter</Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem>All</DropdownMenuItem>
-                      <DropdownMenuItem>Fiction</DropdownMenuItem>
-                      <DropdownMenuItem>Non-fiction</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <Input
+                    className="w-full"
+                    placeholder="Search books..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
                 </div>
                 <Table>
                   <TableHeader>
@@ -60,24 +88,14 @@ const page = (props: Props) => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    <TableRow>
-                      <TableCell>To Kill a Mockingbird</TableCell>
-                      <TableCell>Harper Lee</TableCell>
-                      <TableCell>Fiction</TableCell>
-                      <TableCell>1960</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>1984</TableCell>
-                      <TableCell>George Orwell</TableCell>
-                      <TableCell>Fiction</TableCell>
-                      <TableCell>1949</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>The Great Gatsby</TableCell>
-                      <TableCell>F. Scott Fitzgerald</TableCell>
-                      <TableCell>Fiction</TableCell>
-                      <TableCell>1925</TableCell>
-                    </TableRow>
+                    {filteredBooks.map((book, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{book.title}</TableCell>
+                        <TableCell>{book.author}</TableCell>
+                        <TableCell>{book.genre}</TableCell>
+                        <TableCell>{book.year}</TableCell>
+                      </TableRow>
+                    ))}
                   </TableBody>
                 </Table>
               </div>
@@ -90,4 +108,4 @@ const page = (props: Props) => {
   );
 };
 
-export default page;
+export default Page;

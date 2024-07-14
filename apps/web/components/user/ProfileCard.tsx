@@ -1,4 +1,4 @@
-import { Mail, Phone, BookText } from "lucide-react";
+import { Mail, Phone, BookText, BookOpen } from "lucide-react";
 import React from "react";
 
 type Props = {
@@ -59,6 +59,15 @@ const ProfileCard = ({ className }: Props) => {
               123 Main St
               <br />
               Anytown, USA 12345
+            </dd>
+          </div>
+          <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+            <dt className="text-sm font-medium text-gray-500">
+              {/* <House /> */}
+              <BookOpen />
+            </dt>
+            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <span className="font-semibold">16</span> books read
             </dd>
           </div>
         </dl>

@@ -6,16 +6,22 @@ export const getCheckoutSession = async ({
   name,
   amount,
   id,
-  email,
+  userEmail,
+  userId,
 }: {
   name: string;
   amount: number;
   id: number;
-  email: string;
+  userEmail: string;
+  userId: string;
 }) => {
-  if (!name || !amount || !id || !email) {
-    return { error: "Name, amount, id and email are required" };
+  if (!name || !amount || !id || !userId) {
+    return { error: "Name, amount, id and userId are required" };
   }
+
+  console.log("email : ", userEmail);
+  console.log("name ; ", name, userId);
+
   const stripeSession = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: [
@@ -35,8 +41,9 @@ export const getCheckoutSession = async ({
     cancel_url: "http://localhost:3001/",
     mode: "payment",
     metadata: {
-      customerEmail: email,
-      productId: id,
+      userEmail,
+      userId: userId,
+      bookId: id,
     },
   });
   return { url: stripeSession.url };

@@ -46,23 +46,48 @@ const Navbar = (props: Props) => {
 
           <div className="md:flex md:items-center md:gap-12">
             <nav aria-label="Global" className="hidden md:block">
-              <ul className="flex items-center gap-6 text-sm"></ul>
+              <ul className="flex items-center gap-6 text-sm">
+                <li>
+                  <a
+                    href="/"
+                    className="font-medium text-gray-900 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
+                  >
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/library"
+                    className="font-medium text-gray-900 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
+                  >
+                    Library
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/user"
+                    className="font-medium text-gray-900 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
+                  >
+                    Profile
+                  </a>
+                </li>
+              </ul>
             </nav>
             <div className="flex gap-2">
               <SignedOut>
                 <SignUpButton mode="modal">
-                  <button className="mx-0 rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 hover:bg-gray-200 transition-colors">
+                  <button className="dark:text-white mx-0 rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 hover:bg-gray-200 transition-colors">
                     Register
                   </button>
                 </SignUpButton>
                 <SignInButton mode="modal">
-                  <button className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-teal-700 transition-colors">
+                  <button className="dark:text-white rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow hover:bg-teal-700 transition-colors">
                     Sign In
                   </button>
                 </SignInButton>
               </SignedOut>
               <SignedIn>
-                <div className="flex items-center dark:bg-gray-200 justify-center border rounded px-2">
+                <div className=" flex items-center dark:bg-gray-200 justify-center border rounded px-2">
                   <UserButton />
                 </div>
               </SignedIn>

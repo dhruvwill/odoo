@@ -15,23 +15,26 @@ export async function POST(request: NextRequest) {
       genre,
       quantity,
       availableQty,
+      price,
+      description,
     } = body;
 
-    // Validate required fields
-    if (
-      !isbn ||
-      !title ||
-      !author ||
-      !publisher ||
-      !year ||
-      !genre ||
-      !quantity
-    ) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 },
-      );
-    }
+    // // Validate required fields
+    // if (
+    //   !isbn ||
+    //   !title ||
+    //   !author ||
+    //   !publisher ||
+    //   !year ||
+    //   !genre ||
+    //   !quantity
+    // ) {
+    //   return NextResponse.json(
+    //     // { error: "Missing required fields" },
+    //     { error: "Missing required fields" },
+    //     { status: 400 },
+    //   );
+    // }
 
     // Create the book in the database
     const newBook = await db.book.create({
@@ -39,12 +42,14 @@ export async function POST(request: NextRequest) {
         isbn,
         title,
         imageUrl: imageUrl || "",
+        description: description || "",
         author,
         publisher,
         year,
         genre,
         quantity,
         availableQty: availableQty || quantity, // Default to quantity if not provided
+        price,
       },
     });
 

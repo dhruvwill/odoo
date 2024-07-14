@@ -3,23 +3,29 @@
 import { useState, ChangeEvent } from "react";
 import { Button } from "@repo/ui/components/ui/button";
 import { cn } from "@repo/ui/lib/utils";
+import { useRouter } from "next/navigation";
 
 type SearchBarProps = {
   className?: string;
 };
 const SearchBar: React.FC = ({ className }: SearchBarProps) => {
   const [query, setQuery] = useState<string>("");
-
+  const router = useRouter();
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
   };
 
   const handleSearch = () => {
-    console.log(`Searching for: ${query}`);
+    router.push(`/search?query=${query}`);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSearch();
   };
 
   return (
-    <form className={cn("w-[70%] mx-auto", className)}>
+    <form className={cn("w-[70%] mx-auto", className)} onSubmit={handleSubmit}>
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -47,8 +53,10 @@ const SearchBar: React.FC = ({ className }: SearchBarProps) => {
         <input
           type="search"
           id="default-search"
+          value={query}
+          onChange={handleInputChange}
           className="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Search Books..."
+          placeholder="Search Library Catalogue..."
           required
         />
         <button

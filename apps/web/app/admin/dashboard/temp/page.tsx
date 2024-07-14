@@ -6,11 +6,11 @@ import { useEffect } from "react";
 type Props = {};
 
 const Page = (props: Props) => {
-  const demoSearchValue = "rich dad poor dad";
+  const demoSearchValue = "richdadpoordad";
   useEffect(() => {
     async function fetchBooks() {
       const res = await axios.get(
-        `/api/books?q=${encodeURIComponent(demoSearchValue)}`,
+        `/api/get-book-by-title?q=${encodeURIComponent(demoSearchValue)}`,
       );
       console.log(res);
     }

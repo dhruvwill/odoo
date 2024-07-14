@@ -7,10 +7,8 @@ export async function GET(request: Request) {
   const query = searchParams.get("query");
 
   if (!query) {
-    return NextResponse.json(
-      { error: "Query parameter is required" },
-      { status: 400 },
-    );
+    const books = await db.book.findMany({});
+    return NextResponse.json(books, { status: 200 });
   }
 
   try {
@@ -31,7 +29,7 @@ export async function GET(request: Request) {
       });
     }
     // const books = [];
-    console.log("Books returned:", books);
+    console.log("IMPORTANT Books returned:", books);
     return NextResponse.json(books);
   } catch (error) {
     console.error("Error fetching books:", error);

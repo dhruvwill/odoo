@@ -20,11 +20,12 @@ async function fetchBookData(isbn) {
         ? parseInt(bookData.publishedDate.substring(0, 4))
         : 0,
       genre: bookData.categories ? bookData.categories[0] : "Uncategorized",
+      price: 0,
       quantity: 10,
       availableQty: 10,
     };
   } catch (error) {
-    console.error(`Error fetching data for ISBN ${isbn}:`, error);
+    console.error(`Error fetching data for ISBN ${isbn} `);
     return null;
   }
 }
@@ -37,7 +38,7 @@ async function addBookToDatabase(bookData) {
     console.log(`Added book: ${book.title}`);
     return book;
   } catch (error) {
-    console.error(`Error adding book to database:`, error);
+    console.error(`Error adding book to database:`);
     return null;
   }
 }

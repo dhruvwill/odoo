@@ -5,12 +5,11 @@ import { DollarSign, Users, CreditCard, Activity } from "lucide-react";
 import Card, { CardContent, CardProps } from "~/components/dashboard/Card";
 import BarChart from "~/components/dashboard/BarChart";
 import SalesCard, { SalesProps } from "~/components/dashboard/SalesCard";
-import Sidebar from "~/components/Sidebar";
 
 const cardData: CardProps[] = [
   {
-    label: "Total Revenue",
-    amount: "$45,231.89",
+    label: "Total Books Sold",
+    amount: "200",
     discription: "+20.1% from last month",
     icon: DollarSign,
   },
@@ -21,8 +20,8 @@ const cardData: CardProps[] = [
     icon: Users,
   },
   {
-    label: "Sales",
-    amount: "+12,234",
+    label: "Total Customers",
+    amount: "39",
     discription: "+19% from last month",
     icon: CreditCard,
   },

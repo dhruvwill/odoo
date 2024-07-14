@@ -22,7 +22,12 @@ export default function PageTitle({
     <div className={cn("space-y-2 my-3", className)}>
       <h1 className={cn("text-2xl font-semibold", titleClassName)}>{title}</h1>
       {subtitle && (
-        <div className={cn("text-sm text-muted-foreground", subtitleClassName)}>
+        <div
+          className={cn(
+            "text-sm text-muted-foreground dark:text-black",
+            subtitleClassName,
+          )}
+        >
           {subtitle}
         </div>
       )}
