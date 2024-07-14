@@ -1,13 +1,18 @@
+import { redirect } from "next/navigation";
 import React from "react";
 import Sidebar from "~/components/Sidebar";
+import { checkRoleServer } from "~/utils/serverUtils";
 
 type Props = {};
 
-export default function layout({
+export default async function layout({
   children,
 }: {
   children: React.ReactNode;
-}): JSX.Element {
+}) {
+  if (!(await checkRoleServer("admin"))) {
+    redirect("/");
+  }
   return (
     <div>
       <Sidebar />

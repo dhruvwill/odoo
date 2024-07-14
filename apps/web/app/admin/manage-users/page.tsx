@@ -30,10 +30,6 @@ interface AdminDashboardProps {
 export default async function AdminDashboard({
   searchParams,
 }: AdminDashboardProps) {
-  if (!(await checkRoleServer("admin"))) {
-    redirect("/");
-  }
-
   const query = searchParams.search;
   const roleFilter = searchParams.role;
 
