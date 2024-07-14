@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@repo/ui/components/ui/table";
 import { Input } from "@repo/ui/components/ui/input";
+import { useUser } from "@clerk/nextjs";
 
 type Props = {};
 
