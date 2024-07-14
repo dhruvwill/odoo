@@ -11,6 +11,7 @@ import { Badge } from "@repo/ui/components/ui/badge";
 import { Button } from "@repo/ui/components/ui/button";
 import { ScrollArea } from "@repo/ui/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
+import ReactPaginate from "react-paginate";
 
 // types.ts
 export interface Book {
@@ -28,7 +29,13 @@ export interface Book {
 }
 
 export default function Home() {
+  const [currentPage, setCurrentPage] = useState(0);
+  const booksPerPage = 1; // Adjust this number as needed
+
+  // Calculate the index range for the current page
+  const offset = currentPage * booksPerPage;
   const [books, setBooks] = useState<Book[]>([]);
+  const currentPageBooks = books.slice(offset, offset + booksPerPage);
   const router = useRouter();
 
   useEffect(() => {
@@ -42,11 +49,15 @@ export default function Home() {
     router.push(`/books/${bookId}`);
   };
 
+  const handlePageChange = ({ selected }: any) => {
+    setCurrentPage(selected);
+  };
+
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-8">Library Books</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {books.map((book) => (
+        {currentPageBooks.map((book) => (
           <Card key={book.id} className="flex flex-col">
             <CardHeader>
               <div className="aspect-w-2 aspect-h-3 mb-4">
@@ -86,6 +97,25 @@ export default function Home() {
           </Card>
         ))}
       </div>
+      <ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        breakLabel={"..."}
+        pageCount={Math.ceil(books.length / booksPerPage)}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        previousClassName={"page-item"}
+        nextClassName={"page-item"}
+        pageClassName={"page-item"}
+        breakClassName={"page-item"}
+        pageLinkClassName={"page-link"}
+        previousLinkClassName={"page-link"}
+        nextLinkClassName={"page-link"}
+        breakLinkClassName={"page-link"}
+      />
     </div>
   );
 }
