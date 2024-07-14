@@ -13,40 +13,56 @@ import {
 } from "@repo/ui/components/ui/table";
 import { Input } from "@repo/ui/components/ui/input";
 import { useUser } from "@clerk/nextjs";
+import axios from "axios";
 
 type Props = {};
-
-type Book = {
-  title: string;
-  author: string;
-  genre: string;
-  year: number;
-};
-
 const Page = (props: Props) => {
-  const [books, setBooks] = useState<Book[]>([
-    {
-      title: "To Kill a Mockingbird",
-      author: "Harper Lee",
-      genre: "Fiction",
-      year: 1960,
-    },
-    { title: "1984", author: "George Orwell", genre: "Fiction", year: 1949 },
-    {
-      title: "The Great Gatsby",
-      author: "F. Scott Fitzgerald",
-      genre: "Fiction",
-      year: 1925,
-    },
-    // Add more books here
-  ]);
+  const { isSignedIn, isLoaded, user } = useUser();
 
+  if (!isSignedIn) {
+    return null;
+  }
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+
+  const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(
+          "/api/get-borrowed-books?id=" + user.id,
+        ); // Adjust this URL to your actual API endpoint
+        if (response.status !== 200) {
+          throw new Error("Failed to fetch books");
+        }
+        const data = await response.data;
+        console.log(data.books);
+        setBooks(data.books);
+      } catch (err) {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "An error occurred while fetching books",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchBooks();
+  }, []);
 
   useEffect(() => {
     const filtered = books.filter((book) =>
-      Object.values(book).some((value) =>
+      Object.values(book).some((value: any) =>
         value.toString().toLowerCase().includes(searchTerm.toLowerCase()),
       ),
     );
@@ -79,26 +95,32 @@ const Page = (props: Props) => {
                     onChange={handleSearch}
                   />
                 </div>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Title</TableHead>
-                      <TableHead>Author</TableHead>
-                      <TableHead>Genre</TableHead>
-                      <TableHead>Year</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredBooks.map((book, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{book.title}</TableCell>
-                        <TableCell>{book.author}</TableCell>
-                        <TableCell>{book.genre}</TableCell>
-                        <TableCell>{book.year}</TableCell>
+                {isLoading ? (
+                  <p>Loading books...</p>
+                ) : error ? (
+                  <p className="text-red-500">{error}</p>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Author</TableHead>
+                        <TableHead>Genre</TableHead>
+                        <TableHead>Year</TableHead>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredBooks.map((book: any, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{book.book.title}</TableCell>
+                          <TableCell>{book.book.author}</TableCell>
+                          <TableCell>{book.book.genre}</TableCell>
+                          <TableCell>{book.book.year}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
               </div>
             </div>
           </div>
