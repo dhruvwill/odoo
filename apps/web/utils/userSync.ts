@@ -1,4 +1,4 @@
-import { prisma } from "~/utils/db";
+import { db } from "~/lib/db";
 import { Role } from "@prisma/client";
 
 export async function handleUserCreated(userData: any) {
@@ -10,7 +10,7 @@ export async function handleUserCreated(userData: any) {
   console.log("User created:", userData);
 
   try {
-    const user = await prisma.user.create({
+    const user = await db.user.create({
       data: {
         id,
         email,
@@ -28,7 +28,7 @@ export async function handleUserUpdated(userData: any) {
   const { id, email, role } = userData;
   const name = `${userData.first_name} ${userData.last_name}`;
   try {
-    const user = await prisma.user.update({
+    const user = await db.user.update({
       where: { id },
       data: {
         name,
@@ -45,7 +45,7 @@ export async function handleUserUpdated(userData: any) {
 export async function handleUserDeleted(userData: any) {
   const { id } = userData;
   try {
-    const user = await prisma.user.delete({
+    const user = await db.user.delete({
       where: { id },
     });
     console.log("User deleted successfully:", user);

@@ -1,4 +1,5 @@
 "use client";
+import { LoaderCircle } from "lucide-react";
 import { redirect } from "next/navigation";
 import React, { useEffect } from "react";
 
@@ -8,7 +9,11 @@ const page = (props: Props) => {
   useEffect(() => {
     redirect("admin/dashboard");
   }, []);
-  return <div>dashboard</div>;
+  return (
+    <div className="h-screen w-full flex items-center justify-center">
+      <LoaderCircle />
+    </div>
+  );
 };
 
 export default page;

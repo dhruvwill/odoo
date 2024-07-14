@@ -1,28 +1,29 @@
 // components/BookCard.tsx
 import React from "react";
 import Image from "next/image";
+import { FileClock } from "lucide-react";
+import Link from "next/link";
 
 interface BookCardProps {
   imageSrc: string;
   title: string;
   description: string;
-  tags: string[];
+  timeRemaining: string;
 }
 
 const BookCard: React.FC<BookCardProps> = ({
   imageSrc,
   title,
   description,
-  tags,
+  timeRemaining,
 }) => {
   return (
-    <a
-      href="#"
-      className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-    >
+    <div className="flex w-full flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
       <Image
         className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
         src={imageSrc}
+        width={30}
+        height={30}
         alt={title}
       />
       <div className="flex flex-col justify-between p-4 leading-normal">
@@ -32,18 +33,14 @@ const BookCard: React.FC<BookCardProps> = ({
         <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
           {description}
         </p>
-        <div className="flex flex-wrap gap-2 mt-2">
-          {tags.map((tag, index) => (
-            <span
-              key={index}
-              className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
-            >
-              {tag}
-            </span>
-          ))}
+        <div className="flex items-center mt-2 text-red-800 dark:text-red-200 gap-2">
+          <FileClock />
+          <span className="text-sm font-semibold">
+            Expires In: {timeRemaining}
+          </span>
         </div>
       </div>
-    </a>
+    </div>
   );
 };
 

@@ -11,9 +11,7 @@ generator client {
 model User {
   id              String    @id @default(uuid())
   email           String    @unique
-  password        String
   name            String    @db.Text
-  imageUrl        String    @db.Text
   role            Role      @default(USER)
   borrowedBooks   Borrow[]
   notifications   Notification[]
@@ -33,12 +31,21 @@ enum Role {
   title           String
   imageUrl        String    @db.Text
   author          String
+  description     String
   publisher       String
   year            Int
   genre           String
   quantity        Int
   availableQty    Int       @default(10)
-  borrows         Borrow[]
+  borrows         Borrow[]  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Order {
+  id              Int       @id @default(autoincrement())
+  productId       Int
+  email           String
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }

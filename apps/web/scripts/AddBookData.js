@@ -12,8 +12,10 @@ async function fetchBookData(isbn) {
     return {
       isbn: isbn,
       title: bookData.title,
+      imageUrl: bookData.imageLinks.thumbnail || "Unknown",
       author: bookData.authors ? bookData.authors.join(", ") : "Unknown",
       publisher: bookData.publisher || "Unknown",
+      description: bookData.description || "unavailable",
       year: bookData.publishedDate
         ? parseInt(bookData.publishedDate.substring(0, 4))
         : 0,

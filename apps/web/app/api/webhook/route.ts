@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-// import { db } from "@/lib/db";
+import { db } from "~/lib/db";
 import { stripe } from "~/lib/stripe";
 
 export async function POST(req: Request) {
@@ -37,12 +37,12 @@ export async function POST(req: Request) {
       });
 
     // CREATE ORDER IN DB
-    // await db.order.create({
-    //   data: {
-    //     productId: parseInt(productId),
-    //     email: customerEmail,
-    //   },
-    // });
+    await db.order.create({
+      data: {
+        productId: parseInt(productId),
+        email: customerEmail,
+      },
+    });
   }
   return new NextResponse(null, { status: 200 });
 }

@@ -62,25 +62,16 @@ const Sidebar: FC<SidebarProps> = ({}) => {
             </li>
             <li>
               <Link
-                href="/dashboard/add-books"
+                href="/admin/add-books"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
               >
                 <BookCopy />
                 <span className="flex-1 ms-3 whitespace-nowrap">Add Books</span>
               </Link>
             </li>
-            <li>
-              <Link
-                href="/dashboard/chat"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-              >
-                <Bot />
-                <span className="flex-1 ms-3 whitespace-nowrap">Diet Ai</span>
-              </Link>
-            </li>
-            <li className="border-t my-2">
-              <button className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <LogOutIcon className="text-red-500" />
+            <li className="border-t py-3">
+              <button className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group text-red-500">
+                <LogOutIcon />
                 <span className="flex-1 ms-3 whitespace-nowrap text-red-500">
                   <SignOutButton redirectUrl="/" />
                 </span>
@@ -89,14 +80,14 @@ const Sidebar: FC<SidebarProps> = ({}) => {
           </ul>
           <button
             id="dropdown-cta"
-            className="p-4 flex items-center gap-x-4 rounded-lg bg-blue-50 dark:bg-blue-900 cursor-pointer"
+            className="font-medium p-4 flex items-center gap-x-4 rounded-lg bg-blue-50 dark:bg-blue-900 cursor-pointer"
             role="alert"
             onClick={() => {
               openUserProfile();
             }}
           >
             <UserButton />
-            Profile
+            Manage Profile
           </button>
         </div>
       </div>

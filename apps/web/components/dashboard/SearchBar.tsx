@@ -2,8 +2,12 @@
 "use client";
 import { useState, ChangeEvent } from "react";
 import { Button } from "@repo/ui/components/ui/button";
+import { cn } from "@repo/ui/lib/utils";
 
-const SearchBar: React.FC = () => {
+type SearchBarProps = {
+  className?: string;
+};
+const SearchBar: React.FC = ({ className }: SearchBarProps) => {
   const [query, setQuery] = useState<string>("");
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +19,7 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <form className="max-w-md mx-auto">
+    <form className={cn("w-[70%] mx-auto", className)}>
       <label
         htmlFor="default-search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -33,9 +37,9 @@ const SearchBar: React.FC = () => {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
             />
           </svg>
