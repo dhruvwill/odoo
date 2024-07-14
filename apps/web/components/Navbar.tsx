@@ -6,6 +6,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import React from "react";
+import { ModeToggle } from "~/components/ThemeToggle";
 
 type Props = {};
 
@@ -92,6 +93,9 @@ const Navbar = (props: Props) => {
                     {" "}
                     Blog{" "}
                   </a>
+                </li>
+                <li>
+                  <ModeToggle />
                 </li>
               </ul>
             </nav>

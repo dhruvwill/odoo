@@ -1,0 +1,98 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  password        String
+  name            String    @db.Text
+  imageUrl        String    @db.Text
+  role            Role      @default(USER)
+  borrowedBooks   Borrow[]
+  notifications   Notification[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum Role {
+  ADMIN
+  LIBRARIAN
+  USER
+}
+
+ model Book {
+  id              Int       @id @default(autoincrement())
+  isbn            String    @unique
+  title           String
+  imageUrl        String    @db.Text
+  author          String
+  publisher       String
+  year            Int
+  genre           String
+  quantity        Int
+  availableQty    Int       @default(10)
+  borrows         Borrow[]
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model Borrow {
+  id              Int       @id @default(autoincrement())
+  user            User      @relation(fields: [userId], references: [id])
+  userId          String
+  book            Book      @relation(fields: [bookId], references: [id])
+  bookId          Int
+  borrowDate      DateTime  @default(now())
+  dueDate         DateTime
+  returnDate      DateTime?
+  lateFee         Float?
+  status          BorrowStatus
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+enum BorrowStatus {
+  BORROWED
+  RETURNED
+  OVERDUE
+}
+
+model Notification {
+  id              Int       @id @default(autoincrement())
+  user            User      @relation(fields: [userId], references: [id])
+  userId          String
+  message         String
+  type            NotificationType
+  isRead          Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+}
+
+enum NotificationType {
+  DUE_DATE
+  NEW_ARRIVAL
+  OVERDUE
+  FEE_REMINDER
+}
+
+model Report {
+  id              Int       @id @default(autoincrement())
+  title           String
+  content         Json
+  generatedBy     String
+  type            ReportType
+  createdAt       DateTime  @default(now())
+}
+
+enum ReportType {
+  BOOK_USAGE
+  OVERDUE_ITEMS
+  USER_ACTIVITY
+  GENERAL_STATISTICS
+}
