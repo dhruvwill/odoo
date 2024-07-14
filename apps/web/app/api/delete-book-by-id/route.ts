@@ -2,14 +2,14 @@ import { NextResponse } from "next/server";
 import { db } from "~/lib/db";
 
 export async function POST(req: Request) {
-  const bookId = req.body;
+  const body = await req.json();
+  const bookId = body.data.id;
 
   if (!bookId) {
     return NextResponse.json({ status: "error" });
   }
 
   try {
-    console.log("Book ID:", bookId);
     const numericId = Number(bookId);
     if (isNaN(numericId)) {
       throw new Error("Invalid ID provided");
@@ -20,6 +20,7 @@ export async function POST(req: Request) {
         id: bookId,
       },
     });
+    console.log("Book", book);
   } catch (error) {
     console.error("Error fetching books:", error);
 

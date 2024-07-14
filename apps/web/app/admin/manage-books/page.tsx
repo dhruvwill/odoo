@@ -30,6 +30,7 @@ import {
 import { toast } from "@repo/ui/components/ui/use-toast";
 import PageTitle from "~/components/dashboard/PageTitle";
 import axios from "axios";
+import Router from "next/router";
 
 type BookType = {
   id: number;
@@ -61,6 +62,8 @@ const LibraryPage = () => {
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [bookToDelete, setBookToDelete] = useState<BookType | null>(null);
+
+  const [addBookQuery, setAddBookQuery] = useState("");
 
   const handleDeleteClick = (book: BookType) => {
     setBookToDelete(book);
@@ -129,7 +132,7 @@ const LibraryPage = () => {
         },
       });
 
-      if (!response.ok) {
+      if (response.status != 200) {
         throw new Error("Failed to delete book");
       }
 
@@ -143,6 +146,8 @@ const LibraryPage = () => {
         title: "Book deleted",
         description: `"${bookToDelete.title}" has been removed from the library.`,
       });
+
+      Router.reload();
     } catch (error) {
       console.error("Error deleting book:", error);
       toast({
@@ -270,10 +275,11 @@ const LibraryPage = () => {
                 <Input
                   type="text"
                   placeholder="Search Google Books..."
-                  onChange={(e) => searchGoogleBooks(e.target.value)}
+                  // onChange={(e) => searchGoogleBooks(e.target.value)}
+                  onChange={(e) => setAddBookQuery(e.target.value)}
                 />
                 <Button>
-                  <Search />
+                  <Search onClick={() => searchGoogleBooks(addBookQuery)} />
                 </Button>
               </div>
               {googleBooks.length > 0 && (
