@@ -35,7 +35,9 @@ Check our deployed version 🔗: [Insert your deployed documentation link here]
 1.  Clone this repo
 2.  Install dependencies: `npm install`
 3.  Start all apps: `npm run dev`
-4.  🎉 Magic happens!
+4.  Add clerk webhook to .env or .env.local inside apps/web folder
+5.  Add stripe webhook to .env or .env.local inside apps/web folder
+6.  🎉 Magic happens!
 
 ## 👥 Dream Team
 
@@ -44,12 +46,8 @@ This monorepo masterpiece was crafted by:
 🧙‍♂️ [Dhruvil S Shah] \
 🦸‍♀️ [Pradhyum Arora] \
 🧛‍♂️ [Nitant Makwana] \
-🦹‍♂️ [Yash Makwana]
+🦹‍♂️ [Parth Makwana]
 
 ## 🏆 Odoo Hackathon
 
     This project was born in the crucible of the Odoo Hackathon finals. It represents hours of coding, liters of coffee, and an unhealthy amount of pizza. But hey, that's how champions are made! 🏅
-
-## 📜 License
-
-[Insert your license here]

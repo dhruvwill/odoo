@@ -30,7 +30,7 @@ import {
 import { toast } from "@repo/ui/components/ui/use-toast";
 import PageTitle from "~/components/dashboard/PageTitle";
 import axios from "axios";
-import Router from "next/router";
+import { useRouter } from "next/navigation";
 
 type BookType = {
   id: number;
@@ -48,6 +48,7 @@ type BookType = {
 };
 
 const LibraryPage = () => {
+  // const router = useRouter();
   const [books, setBooks] = useState<BookType[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<BookType[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -146,8 +147,7 @@ const LibraryPage = () => {
         title: "Book deleted",
         description: `"${bookToDelete.title}" has been removed from the library.`,
       });
-
-      Router.reload();
+      // router.refresh();
     } catch (error) {
       console.error("Error deleting book:", error);
       toast({
@@ -398,41 +398,6 @@ const LibraryPage = () => {
       </Dialog>
     </div>
   );
-};
-
-const handleDeleteConfirm = async () => {
-  if (!bookToDelete) return;
-
-  try {
-    const response = await fetch(`/api/delete-book/${bookToDelete.isbn}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to delete book");
-    }
-
-    // Remove the deleted book from the local state
-    setBooks(books.filter((book) => book.isbn !== bookToDelete.isbn));
-    setFilteredBooks(
-      filteredBooks.filter((book) => book.isbn !== bookToDelete.isbn),
-    );
-
-    toast({
-      title: "Book deleted",
-      description: `"${bookToDelete.title}" has been removed from the library.`,
-    });
-  } catch (error) {
-    console.error("Error deleting book:", error);
-    toast({
-      title: "Error",
-      description: "Failed to delete the book. Please try again.",
-      variant: "destructive",
-    });
-  } finally {
-    setIsDeleteModalOpen(false);
-    setBookToDelete(null);
-  }
 };
 
 export default LibraryPage;

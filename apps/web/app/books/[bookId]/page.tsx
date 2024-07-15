@@ -86,7 +86,7 @@ export default function BookPage() {
 
     const redirectUrl = await getCheckoutSession({
       name: book!.title,
-      amount: book!.price * 100, // Convert to cents
+      amount: book!.price, // Convert to cents
       id: book!.id.toString(),
       userEmail: user?.emailAddresses[0].emailAddress,
       userId: user?.id!,

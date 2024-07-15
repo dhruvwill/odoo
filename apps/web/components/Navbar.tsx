@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import { ModeToggle } from "~/components/ThemeToggle";
+import { checkRoleClient } from "~/utils/clientUtils";
 
 type Props = {};
 
@@ -71,6 +72,16 @@ const Navbar = (props: Props) => {
                     Profile
                   </a>
                 </li>
+                {checkRoleClient("admin") && (
+                  <li>
+                    <a
+                      href="/admin"
+                      className="font-medium text-gray-900 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
+                    >
+                      Admin
+                    </a>
+                  </li>
+                )}
               </ul>
             </nav>
             <div className="flex gap-2">
